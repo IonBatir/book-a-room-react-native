@@ -6,9 +6,7 @@ import {
   Content,
   List,
   ListItem,
-  Left,
   Right,
-  Thumbnail,
   Body,
   Text,
   Spinner
@@ -69,10 +67,10 @@ export default class extends React.Component {
               renderRow={item => (
                 <ListItem>
                   <Body>
-                    <Text>{item.hotel}</Text>
-                    <Text note>
-                      Nr. {item.number} - {item.type}
+                    <Text>
+                      Nr. {item.number} ({item.type})
                     </Text>
+                    <Text note>{item.hotel}</Text>
                   </Body>
                   <Right>
                     <Text>{item.price_per_day}$</Text>
