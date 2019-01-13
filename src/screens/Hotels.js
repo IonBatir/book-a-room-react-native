@@ -14,7 +14,7 @@ import {
   Spinner
 } from "native-base";
 import { fetchItems } from "../api";
-import { ROOMS_SCREEN } from "../const";
+import { ROOMS_LIST_SCREEN } from "../const";
 
 const images = [
   "https://s-ec.bstatic.com/images/hotel/max1280x900/101/101430248.jpg",
@@ -79,7 +79,11 @@ export default class extends React.Component {
               renderRow={item => (
                 <ListItem
                   avatar
-                  onPress={() => this.props.navigation.navigate(ROOMS_SCREEN)}
+                  onPress={() =>
+                    this.props.navigation.navigate(ROOMS_LIST_SCREEN, {
+                      hotel: item.name
+                    })
+                  }
                 >
                   <Left>
                     <Thumbnail
