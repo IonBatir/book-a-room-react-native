@@ -11,9 +11,12 @@ import {
   Text,
   Spinner
 } from "native-base";
+import { createStackNavigator } from "react-navigation";
+import Book from "./Book";
+import { BOOK_SCREEN, ROOMS_LIST_SCREEN } from "../const";
 import { fetchItems } from "../api";
 
-export default class extends React.Component {
+class Rooms extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -27,7 +30,6 @@ export default class extends React.Component {
     this.setState({ loading: true });
     fetchItems("room")
       .then(response => {
-        console.log(response.rooms);
         this.setState({ loading: false, data: response.rooms });
       })
       .catch(error => {
@@ -49,7 +51,9 @@ export default class extends React.Component {
   };
 
   render() {
-    const { data, loading } = this.state;
+    const { data, loading } = this.state,
+      { navigation } = this.props,
+      hotel = navigation.getParam("hotel");
     return (
       <ScrollView
         refreshControl={
@@ -63,9 +67,15 @@ export default class extends React.Component {
           <Header />
           <Content>
             <List
-              dataArray={data}
+              dataArray={
+                hotel ? data.filter(item => item.hotel === hotel) : data
+              }
               renderRow={item => (
-                <ListItem>
+                <ListItem
+                  onPress={() =>
+                    navigation.navigate(BOOK_SCREEN, { room: item })
+                  }
+                >
                   <Body>
                     <Text>
                       Nr. {item.number} ({item.type})
@@ -85,3 +95,11 @@ export default class extends React.Component {
     );
   }
 }
+
+export default createStackNavigator(
+  {
+    [ROOMS_LIST_SCREEN]: Rooms,
+    [BOOK_SCREEN]: Book
+  },
+  { initialRouteName: ROOMS_LIST_SCREEN, headerMode: "none" }
+);
