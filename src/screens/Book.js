@@ -51,7 +51,8 @@ export default class extends React.Component {
           <H3
             style={{
               textAlign: "center",
-              marginTop: 10
+              marginTop: 10,
+              marginBottom: 50
             }}
           >
             {room.hotel}
@@ -94,10 +95,21 @@ export default class extends React.Component {
                   1}-${check_out.getDate()}`
               })
                 .then(response => {
+                  Toast.show({
+                    text: response.message,
+                    buttonText: "Okay",
+                    duration: 3000
+                  });
                   navigation.navigate(HOTELS_SCREEN);
                 })
                 .catch(error => {
                   console.log(error);
+                  Toast.show({
+                    text:
+                      error.response.data.message ||
+                      "Sorry, something went wrong. Please try again!",
+                    buttonText: "Okay"
+                  });
                 });
             }}
             block
